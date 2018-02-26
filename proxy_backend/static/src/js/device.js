@@ -72,15 +72,17 @@ function proxy_device(instance,module){
             for(var i = 0; i < callbacks.length; i++){
                 callbacks[i](params);
             }
-
+            return this.connection.rpc('/cups/' + name, params || {});
+            /*
             if(this.get('status').status !== 'disconnected'){
-                return this.connection.rpc('/hw_proxy/' + name, params || {});
+                return this.connection.rpc('/cups/' + name, params || {});
             }else{
                 return (new $.Deferred()).reject();
-            }
+            }*/
         },
 
         print_receipt: function(receipt){
+            console.log(receipt);
             var self = this;
             if(receipt){
                 this.receipt_queue.push(receipt);
@@ -89,7 +91,7 @@ function proxy_device(instance,module){
             function send_printing_job(){
                 if (self.receipt_queue.length > 0){
                     var r = self.receipt_queue.shift();
-                    self.message('print_xml_receipt',{ receipt: r },{ timeout: 5000 })
+                    self.message('printData',{data: r},{ timeout: 5000 })
                         .then(function(){
                             send_printing_job();
                         },function(error){
