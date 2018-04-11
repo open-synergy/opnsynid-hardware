@@ -72,17 +72,15 @@ function proxy_device(instance,module){
             for(var i = 0; i < callbacks.length; i++){
                 callbacks[i](params);
             }
-            return this.connection.rpc('/cups/' + name, params || {});
-            /*
+
             if(this.get('status').status !== 'disconnected'){
-                return this.connection.rpc('/cups/' + name, params || {});
+                return this.connection.rpc('/hw_proxy/' + name, params || {});
             }else{
                 return (new $.Deferred()).reject();
-            }*/
+            }
         },
 
         print_receipt: function(receipt){
-            console.log(receipt);
             var self = this;
             if(receipt){
                 this.receipt_queue.push(receipt);
@@ -91,7 +89,33 @@ function proxy_device(instance,module){
             function send_printing_job(){
                 if (self.receipt_queue.length > 0){
                     var r = self.receipt_queue.shift();
-                    self.message('printData',{data: r},{ timeout: 5000 })
+                    self.message('print_xml_receipt',{ receipt: r },{ timeout: 5000 })
+                        .then(function(){
+                            send_printing_job();
+                        },function(error){
+                            if (error) {
+                                console.log("Error when printing")
+                                return;
+                            }
+                            self.receipt_queue.unshift(r)
+                        });
+                }
+            }
+            send_printing_job();
+        },
+
+
+        print_using_cups: function(data){
+            console.log(data)
+            var self = this;
+            if(data){
+                this.receipt_queue.push(data);
+            }
+            var aborted = false;
+            function send_printing_job(){
+                if (self.receipt_queue.length > 0){
+                    var r = self.receipt_queue.shift();
+                    self.message('print_using_cups',{ data: r },{ timeout: 5000 })
                         .then(function(){
                             send_printing_job();
                         },function(error){

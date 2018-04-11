@@ -42,7 +42,8 @@ function proxy_backend_ecspos_aeroo(instance, module){
                 this.proxy = new module.ProxyDevice(this);
                 this.proxy.connect(this.proxy_url)
                 obj_proxy.call('get_content_aeroo_report',[report_name, object_id]).then(function(aeroo_content){
-                    self.proxy.print_receipt(aeroo_content);
+                    console.log(aeroo_content)
+                    //self.proxy.print_using_cups(aeroo_content);
                 },function(err,event){
                     event.preventDefault();
                     console.log("Error")
