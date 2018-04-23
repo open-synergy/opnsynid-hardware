@@ -38,9 +38,10 @@ class CupsDriver(Thread):
             conn = cups.Connection()
             printers = conn.getPrinters()
             printer_name = printers.keys()[0]
-            with NamedTemporaryFile(suffix='', prefix='aeroo-print-cups', delete=False) as temp_file:
-                temp_file.write(data)
-            conn.printFile(printer_name,temp_file.name,"Aeroo Print Cups", {})
+            with NamedTemporaryFile() as f:
+                f.write(data.decode('base64'))
+                f.flush()
+                conn.printFile(printer_name,f.name,"Aeroo Print Cups", {})
         except Exception, e:
             print "Error %s" %str(e)
 
