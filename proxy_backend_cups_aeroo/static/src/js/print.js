@@ -1,9 +1,9 @@
-function proxy_backend_ecspos_aeroo(instance, module){
+function proxy_backend_cups_aeroo(instance, module){
     var _t = instance.web._t,
         _lt = instance.web._lt;
     var QWeb = instance.web.qweb;
 
-    module.PrintAerooProxyEcspos  = Backbone.Model.extend({
+    module.PrintAerooProxyCups  = Backbone.Model.extend({
 
         initialize: function(attributes){
             return this;
@@ -42,7 +42,7 @@ function proxy_backend_ecspos_aeroo(instance, module){
                 this.proxy = new module.ProxyDevice(this);
                 this.proxy.connect(this.proxy_url)
                 obj_proxy.call('get_content_aeroo_report',[report_name, object_id]).then(function(aeroo_content){
-                    self.proxy.print_receipt(aeroo_content);
+                    self.proxy.print_using_cups(aeroo_content);
                 },function(err,event){
                     event.preventDefault();
                     console.log("Error")
@@ -57,15 +57,15 @@ function proxy_backend_ecspos_aeroo(instance, module){
         },
     });
 
-    instance.web.client_actions.add('print_aeroo_proxy', 'instance.proxy_backend_ecspos_aeroo.action');
-    instance.proxy_backend_ecspos_aeroo.action = function (instance, context) {
+    instance.web.client_actions.add('print_aeroo_proxy_cups', 'instance.proxy_backend_cups_aeroo.action');
+    instance.proxy_backend_cups_aeroo.action = function (instance, context) {
         this.report_name = []
         this.object_id = []
-        this.PrintAerooProxyEcspos = new module.PrintAerooProxyEcspos(this);
+        this.PrintAerooProxyCups = new module.PrintAerooProxyCups(this);
         if (context.context.report_name) this.report_name = context.context.report_name;
         if (context.context.object_id) this.object_id = context.context.object_id;
         if (this.report_name && this.object_id) {
-            this.PrintAerooProxyEcspos.print_report_aeroo(this.report_name, this.object_id);
+            this.PrintAerooProxyCups.print_report_aeroo(this.report_name, this.object_id);
         }
         else{
             console.log("No Context Defined")
