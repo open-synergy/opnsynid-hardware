@@ -12,6 +12,7 @@
                 <tree>
                     <field name="name"/>
                     <field name="backend_ip"/>
+                    <field name="port"/>
                     <field name="active"/>
                 </tree>
             </field>
@@ -26,6 +27,7 @@
                         <group col="2" colspan="2">
                             <field name="name"/>
                             <field name="backend_ip"/>
+                            <field name="port"/>
                             <field name="active"/>
                         </group>
                         <group col="4" string="Users">

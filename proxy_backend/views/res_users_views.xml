@@ -12,7 +12,7 @@
             <field name="arch" type="xml">
                 <page string="Preferences">
                     <group name="Proxy Backend">
-                        <field name="proxy_backend_id"/>
+                        <field name="proxy_backend_id" options="{'no_create': True}"/>
                     </group>
                 </page>
             </field>
@@ -24,8 +24,8 @@
             <field name="inherit_id" ref="base.view_users_form_simple_modif" />
             <field name="arch" type="xml">
                 <xpath expr="//footer" position="before">
-                    <group string="Proxy Backend" name="printing">
-                        <field name="proxy_backend_id"/>
+                    <group string="Proxy Backend">
+                        <field name="proxy_backend_id" options="{'no_create': True}" readonly="0"/>
                     </group>
                 </xpath>
             </field>
