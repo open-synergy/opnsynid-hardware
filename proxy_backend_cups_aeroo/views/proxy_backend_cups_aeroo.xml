@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="assets_backend" name="proxy_backend_cups_aeroo" inherit_id="web.assets_backend">
+          <xpath expr="." position="inside">
+              <script type="text/javascript" src="/proxy_backend_cups_aeroo/static/src/js/device.js" />
+              <script type="text/javascript" src="/proxy_backend_cups_aeroo/static/src/js/print.js" />
+              <script type="text/javascript" src="/proxy_backend_cups_aeroo/static/src/js/main.js" />
+          </xpath>
+        </template>
+        <record id="proxy_backend_cups_aeroo_action" model="ir.actions.client">
+            <field name="name">Print Aeroo Proxy Cups Action</field>
+            <field name="tag">print_aeroo_proxy_cups</field>
+        </record>
+    </data>
+</openerp>
