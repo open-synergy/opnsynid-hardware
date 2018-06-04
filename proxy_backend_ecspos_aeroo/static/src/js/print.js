@@ -1,4 +1,4 @@
-function proxy_backend_ecspos_aeroo(instance, module){
+function proxy_backend_ecspos_aeroo_print(instance, module){
     var _t = instance.web._t,
         _lt = instance.web._lt;
     var QWeb = instance.web.qweb;
@@ -20,13 +20,14 @@ function proxy_backend_ecspos_aeroo(instance, module){
                 .then(function (user) {
                     if (user.proxy_backend_id){
                         proxy_id = user.proxy_backend_id[0]
-                        obj_proxy.query(["backend_ip"])
+                        obj_proxy.query(["backend_ip", "port"])
                             .filter([['id', '=', proxy_id]])
                             .first()
                             .then(function (proxy) {
                                 proxy_ip = proxy.backend_ip
+                                proxy_port = proxy.port
                                 proxy_id = proxy.id
-                                self.call_template(proxy_ip, proxy_id, report_name, object_id);
+                                self.call_template(proxy_ip, proxy_id, proxy_port, report_name, object_id);
                             }
                         )
                     }
@@ -34,18 +35,18 @@ function proxy_backend_ecspos_aeroo(instance, module){
             );
         },
 
-        call_template: function(proxy_ip, proxy_id, report_name, object_id){
+        call_template: function(proxy_ip, proxy_id, proxy_port, report_name, object_id){
             var self = this;
             var obj_proxy = new openerp.Model('proxy.backend');
             if (proxy_ip){
-                this.proxy_url = "http://"+ proxy_ip + ":8069"
+                this.proxy_url = "http://"+ proxy_ip + ":" + proxy_port
                 this.proxy = new module.ProxyDevice(this);
                 this.proxy.connect(this.proxy_url)
-                obj_proxy.call('get_content_aeroo_report',[report_name, object_id]).then(function(aeroo_content){
+                obj_proxy.call('get_content_ecspos',[report_name, object_id]).then(function(aeroo_content){
                     self.proxy.print_receipt(aeroo_content);
                 },function(err,event){
                     event.preventDefault();
-                    console.log("Error")
+                    console.log("Content should be Raw. Please try again.")
                 });
             }
         },

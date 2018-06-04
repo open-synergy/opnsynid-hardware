@@ -4,6 +4,7 @@
         <template id="assets_backend" name="proxy_backend_ecspos_aeroo" inherit_id="web.assets_backend">
           <xpath expr="." position="inside">
               <script type="text/javascript" src="/proxy_backend_ecspos_aeroo/static/src/js/print.js" />
+              <script type="text/javascript" src="/proxy_backend_ecspos_aeroo/static/src/js/device.js" />
               <script type="text/javascript" src="/proxy_backend_ecspos_aeroo/static/src/js/main.js" />
           </xpath>
         </template>
