@@ -16,7 +16,12 @@ class ProxyBackend(models.Model):
     backend_ip = fields.Char(
         string="IP Address",
         required=True,
-        help='IP Address Of The Hardware Proxy'
+        help="IP Address Of The Hardware Proxy"
+    )
+    port = fields.Char(
+        string="Port",
+        required=True,
+        help="Port Of The Hardware Proxy"
     )
     description = fields.Text(
         string="Description"
@@ -25,7 +30,7 @@ class ProxyBackend(models.Model):
         string="Users",
         comodel_name="res.users",
         inverse_name="proxy_backend_id",
-        )
+    )
     active = fields.Boolean(
         string="Active",
         default=True
