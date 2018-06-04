@@ -2,28 +2,21 @@
    :target: http://www.gnu.org/licenses/agpl-3.0-standalone.html
    :alt: License: AGPL-3
 
-====================================================================
-Backend Direct Printing Using Hardware Proxy + Aeroo Report + ESCPOS
-====================================================================
+====================
+Cups Hardware Driver
+====================
 
+This module allows user to print with cups on local.
 
 =====
 Usage
 =====
-Add this button in an inherit of the view:
-`<button name="<ID CLient Action>" type="action" string="Print" context="{'report_name': '<Aeroo Report Name>', 'object_id':[active_id]}"/>`
+Launch the Odoo server with:`./odoo.py --load=...,hw_proxy_cups`
 
 Installation
 ============
 
-To install this module, you need to:
-
-1.  Clone the branch 8.0 of the repository https://github.com/open-synergy/opnsynid-hardware
-2.  Add the path to this repository in your configuration (addons-path)
-3.  Update the module list
-4.  Go to menu *Setting -> Modules -> Local Modules*
-5.  Search For *Backend Direct Printing Using Hardware Proxy + Aeroo Report + ESCPOS*
-6.  Install the module
+No Installation Required
 
 Bug Tracker
 ===========
