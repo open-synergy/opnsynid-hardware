@@ -52,6 +52,7 @@ class RpiGpioDriver(Thread):
             GPIO.setmode(mode)
             GPIO.setup(channel, GPIO.OUT)
             GPIO.output(channel, GPIO.LOW)
+            GPIO.cleanup(channel)
         except Exception as e:
             logger.error("Error: %s" % str(e))
 
@@ -62,6 +63,7 @@ class RpiGpioDriver(Thread):
             GPIO.output(channel, GPIO.HIGH)
             time.sleep(interval)
             GPIO.output(channel, GPIO.LOW)
+            GPIO.cleanup(channel)
         except Exception as e:
             logger.error("Error: %s" % str(e))
 
