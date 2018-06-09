@@ -3,7 +3,7 @@ function proxy_device(instance,module){
         _lt = instance.web._lt;
     var QWeb = instance.web.qweb;
 
-    module.ProxyDevice  = instance.web.Class.extend(openerp.PropertiesMixin,{
+    module.ProxyBackendDevice  = instance.web.Class.extend(openerp.PropertiesMixin,{
         init: function(parent,options){
             openerp.PropertiesMixin.init.call(this,parent);
             var self = this;
@@ -22,13 +22,6 @@ function proxy_device(instance,module){
             this.set('status',{});
 
             this.set_connection_status('disconnected');
-
-            this.on('change:status',this,function(eh,status){
-                status = status.newValue;
-                if(status.status === 'connected'){
-                    self.print_receipt();
-                }
-            });
 
             window.hw_proxy = this;
         },
