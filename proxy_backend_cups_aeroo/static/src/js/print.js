@@ -40,7 +40,7 @@ function proxy_backend_cups_aeroo_print(instance, module){
             var obj_proxy = new openerp.Model('proxy.backend');
             if (proxy_ip){
                 this.proxy_url = "http://"+ proxy_ip + ":" + proxy_port
-                this.proxy = new module.ProxyDevice(this);
+                this.proxy = new module.ProxyBackendDevice(this);
                 this.proxy.connect(this.proxy_url)
                 obj_proxy.call('get_content_cups',[report_name, object_id]).then(function(aeroo_content){
                     self.proxy.print_using_cups(aeroo_content);
