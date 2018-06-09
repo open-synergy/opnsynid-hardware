@@ -2,8 +2,8 @@ function proxy_backend_ecspos_aeroo_print_device(instance, module){
     var QWeb = instance.web.qweb;
     _t = instance.web._t;
 
-    var _super = module.ProxyDevice;
-    module.ProxyDevice = module.ProxyDevice.extend({
+    var _super = module.ProxyBackendDevice;
+    module.ProxyBackendDevice = module.ProxyBackendDevice.extend({
         print_receipt: function(receipt){
             var self = this;
             if(receipt){
