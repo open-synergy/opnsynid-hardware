@@ -38,6 +38,7 @@ install:
   - if [[ ${TESTS} == "1" ]]; then sudo apt-get -qy install python-cairo; fi
   - if [[ ${TESTS} == "1" ]]; then sudo apt-get -qy install python-cups; fi
   - git clone --depth=1 https://github.com/OCA/maintainer-quality-tools.git ${HOME}/maintainer-quality-tools
+  - sed -i 's/manifest_required_author\=.*/manifest_required_author="OpenSynergy Indonesia"/g' ${HOME}/maintainer-quality-tools/travis/cfg/travis_run_pylint_pr.cfg
   - export PATH=${HOME}/maintainer-quality-tools/travis:${PATH}
   - travis_install_nightly
   - git clone https://github.com/aeroo/aeroolib.git ${HOME}/aeroolib
