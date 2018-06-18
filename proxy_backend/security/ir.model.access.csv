@@ -1,3 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 proxy_backend_access_right,proxy.backend,model_proxy_backend,base.group_erp_manager,1,1,1,1
+proxy_backend_device_access_right,proxy.backend_device - Administrator,model_proxy_backend_device,base.group_erp_manager,1,1,1,1
+proxy_backend_device_type_access_right,proxy.backend_device_type - Administrator,model_proxy_backend_device_type,base.group_erp_manager,1,1,1,1
 proxy_backend_all,proxy.backend,model_proxy_backend,,1,0,0,0
+proxy_backend_device_type_all,proxy.backend_device_type - all,model_proxy_backend_device_type,,1,0,0,0
+proxy_backend_device_all,proxy.backend_device - all,model_proxy_backend_device,,1,0,0,0

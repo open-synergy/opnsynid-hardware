@@ -23,6 +23,11 @@ class ProxyBackend(models.Model):
         required=True,
         help="Port Of The Hardware Proxy"
     )
+    device_ids = fields.One2many(
+        string="Devices",
+        comodel_name="proxy.backend_device",
+        inverse_name="proxy_backend_id",
+    )
     description = fields.Text(
         string="Description"
     )
