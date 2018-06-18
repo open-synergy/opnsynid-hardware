@@ -24,22 +24,22 @@
             <field name="arch" type="xml">
                 <form string="Proxy Backend">
                     <sheet>
-                        <group col="2" colspan="2">
+                        <group name="form1" col="2" colspan="2">
                             <field name="name"/>
                             <field name="backend_ip"/>
                             <field name="port"/>
                             <field name="active"/>
                         </group>
-                        <group col="4" string="Users">
-                            <field name="user_ids" nolabel="1">
-                                <tree string='Users'>
-                                    <field name="name" />
-                                </tree>
-                            </field>
-                        </group>
-                        <group col="4">
-                            <field name="description"/>
-                        </group>
+                        <notebook>
+                            <page name="description" string="Description">
+                                <field name="description" nolabel="1"/>
+                            </page>
+                            <page name="device" string="Device(s)">
+                                <group name="serial_device" string="Device(s)">
+                                    <field name="device_ids" colspan="4" nolabel="1" widget="many2many"/>
+                                </group>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
