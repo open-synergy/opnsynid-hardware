@@ -59,10 +59,16 @@
 
 <menuitem
     name="Devices"
+    id="proxy_backend_device_root_menu"
+    parent="menu_proxy_root"
+    sequence="1003"/>
+
+<menuitem
+    name="All Devices"
     id="proxy_backend_device_menu"
     action="proxy_backend_device_action"
-    parent="menu_proxy_root"
-    sequence="1002"/>
+    parent="proxy_backend_device_root_menu"
+    sequence="0"/>
 
 </data>
 </openerp>
