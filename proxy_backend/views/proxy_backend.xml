@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>
-      <template id="assets_backend" name="proxy_backend" inherit_id="web.assets_backend">
-        <xpath expr="." position="inside">
-            <script type="text/javascript" src="/proxy_backend/static/src/js/device.js" />
-            <script type="text/javascript" src="/proxy_backend/static/src/js/main.js" />
-        </xpath>
-      </template>
-    </data>
+<data>
+    <template id="assets_backend" name="proxy_backend" inherit_id="web.assets_backend">
+    <xpath expr="." position="inside">
+        <script type="text/javascript" src="/proxy_backend/static/src/js/widget.js" />
+    </xpath>
+    </template>
+
+    <!-- TODO: Split client action into different file? -->
+    <record id="proxy_backend_test_connection_action" model="ir.actions.client">
+        <field name="name">Test Proxy Backend Connection</field>
+        <field name="tag">test_proxy_backend_connection</field>
+    </record>
+
+    <record id="proxy_device_test_connection_action" model="ir.actions.client">
+        <field name="name">Test Proxy Device Connection</field>
+        <field name="tag">test_proxy_device_connection</field>
+    </record>
+</data>
 </openerp>
