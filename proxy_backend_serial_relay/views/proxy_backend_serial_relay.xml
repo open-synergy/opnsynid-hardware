@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="assets_backend" name="proxy_backend_serial_relay" inherit_id="web.assets_backend">
+    <xpath expr="." position="inside">
+        <script type="text/javascript" src="/proxy_backend_serial_relay/static/src/js/action.js" />
+        <script type="text/javascript" src="/proxy_backend_serial_relay/static/src/js/main.js" />
+    </xpath>
+</template>
+
+<!-- Client Action -->
+<record id="proxy_backend_serial_relay_on_action" model="ir.actions.client">
+    <field name="name">Serial Relay On Action</field>
+    <field name="tag">proxy_backend_serial_relay_on</field>
+</record>
+
+<record id="proxy_backend_serial_relay_off_action" model="ir.actions.client">
+    <field name="name">Serial Relay Off Action</field>
+    <field name="tag">proxy_backend_serial_relay_off</field>
+</record>
+
+</data>
+</openerp>
