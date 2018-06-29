@@ -23,8 +23,14 @@
             <field name="model">proxy.backend</field>
             <field name="arch" type="xml">
                 <form string="Proxy Backend">
+                    <header>
+                        <button name="%(proxy_backend.proxy_backend_test_connection_action)d" 
+                            type="action" string="Test Connection" 
+                            context="{'backend_id':id}"/>
+                    </header>
                     <sheet>
                         <group name="form1" col="2" colspan="2">
+                            <field name="id" invisible="1"/>
                             <field name="name"/>
                             <field name="backend_ip"/>
                             <field name="port"/>

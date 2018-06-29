@@ -21,8 +21,14 @@
     <field name="model">proxy.backend_device</field>
     <field name="arch" type="xml">
         <form>
+            <header>
+                <button name="%(proxy_backend.proxy_device_test_connection_action)d" 
+                    type="action" string="Test Connection" 
+                    context="{'device_id':id}"/>
+            </header>
             <sheet>
                 <group name="form1" col="2" colspan="2">
+                    <field name="id" invisible="1"/>
                     <field name="name"/>
                     <field name="type_id"/>
                     <field name="proxy_backend_id"/>
