@@ -52,7 +52,7 @@
     id="proxy_backend_device_type_menu"
     action="proxy_backend_device_type_action"
     parent="menu_proxy_root"
-    sequence="1003"/>
+    sequence="1002"/>
 
 </data>
 </openerp>
