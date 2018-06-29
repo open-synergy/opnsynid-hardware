@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 OpenSynergy Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+<record id="proxy_backend_serial_relay_view_tree" model="ir.ui.view">
+    <field name="name">proxy.backend_serial_relay tree</field>
+    <field name="model">proxy.backend_serial_relay</field>
+    <field name="inherit_id" ref="proxy_backend.proxy_backend_device_view_tree"/>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='type_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="device_path"/>
+            </xpath>            
+        </data>
+    </field>
+</record>
+
+<record id="proxy_backend_serial_relay_view_form" model="ir.ui.view">
+    <field name="name">proxy.backend_serial_relay form</field>
+    <field name="model">proxy.backend_serial_relay</field>
+    <field name="inherit_id" ref="proxy_backend.proxy_backend_device_view_form"/>    
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='type_id']" position="attributes">
+                <attribute name="invisible">0</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="device_path"/>
+            </xpath>  
+            <xpath expr="//page[@name='description']" position="before">
+                <page name="channel" string="Channel(s)">
+                    <field name="channel_ids" colspan="4" nolabel="1">
+                        <tree>
+                            <field name="name"/>
+                        </tree>
+                        <form>
+                            <header>
+                                <button name="%(proxy_backend_serial_relay.proxy_backend_serial_relay_on_action)d" 
+                                    type="action" string="On" 
+                                    context="{'device_id':parent.id, 'pin':name, 'delay':0}"/>               
+                                <button name="%(proxy_backend_serial_relay.proxy_backend_serial_relay_off_action)d" 
+                                    type="action" string="Off" 
+                                    context="{'device_id':parent.id, 'pin':name, 'delay':0}"/>                                                      
+                            </header>
+                            <group name="group1" colspan="4" col="2">
+                                <field name="name"/>
+                            </group>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="proxy_backend_serial_relay_action" model="ir.actions.act_window">
+    <field name="name">Serial Relay</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">proxy.backend_serial_relay</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+        Click to add a Serial Relay.
+        </p>
+    </field>
+</record>
+
+<record id="proxy_backend_serial_relay_waction_tree"
+        model="ir.actions.act_window.view">
+    <field eval="1" name="sequence"/>
+    <field name="view_mode">tree</field>
+    <field name="view_id" ref="proxy_backend_serial_relay_view_tree"/>    
+    <field name="act_window_id" ref="proxy_backend_serial_relay_action"/>
+</record>
+
+<record id="proxy_backend_serial_relay_waction_form"
+        model="ir.actions.act_window.view">
+    <field eval="2" name="sequence"/>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="proxy_backend_serial_relay_view_form"/>
+    <field name="act_window_id" ref="proxy_backend_serial_relay_action"/>
+</record>
+
+<menuitem
+    name="Serial Relay"
+    id="proxy_backend_serial_relay_menu"
+    action="proxy_backend_serial_relay_action"
+    parent="proxy_backend.proxy_backend_device_root_menu"
+    sequence="5"/>
+
+</data>
+</openerp>
