@@ -26,6 +26,7 @@ class SerialRelayDriver(Thread):
         self.lock = Lock()
         self.start_marker = 60
         self.end_marker = 62
+        self.serial = False
 
     def lockedstart(self):
         with self.lock:
@@ -37,47 +38,37 @@ class SerialRelayDriver(Thread):
         self.lockedstart()
         self.queue.put((time.time(), task, port, pin, delay))
 
-    def setup_relay(self, serial_device, pin):
+    def setup_relay(self, pin):
         message = "<%s,%s,%s,%s>" % (0, pin, 0, 0)
-        self.send_to_serial_device(serial_device, message)
-        while serial_device.inWaiting() == 0:
+        self.send_to_serial_device(message)
+        while self.serial.inWaiting() == 0:
             pass
-        data = self.receive_from_serial_device(serial_device)
+        data = self.receive_from_serial_device()
         return data
 
     def serial_relay_on(self, port, pin, delay):
         try:
-            serial_device = self.open_serial_device(port)
-            msg1 = self.wait_for_arduino(serial_device)
-            logger.info(msg1)
-            msg2 = self.setup_relay(serial_device, pin)
-            logger.info(msg2)
+            self.open_serial_device(port)
             message = "<%s,%s,%s,%s>" % (1, pin, 0, delay)
-            self.send_to_serial_device(serial_device, message)
-            while serial_device.inWaiting() == 0:
+            self.send_to_serial_device(message)
+            while self.serial.inWaiting() == 0:
                 pass
-            data = self.receive_from_serial_device(serial_device)
+            data = self.receive_from_serial_device()
             logger.info(data)
 
-            self.close_serial_device(serial_device)
         except Exception as e:
             logger.error("Error: %s" % str(e))
 
     def serial_relay_off(self, port, pin, delay):
         try:
-            serial_device = self.open_serial_device(port)
-            msg1 = self.wait_for_arduino(serial_device)
-            logger.info(msg1)
-            msg2 = self.setup_relay(serial_device, pin)
-            logger.info(msg2)
+            self.open_serial_device(port)
             message = "<%s,%s,%s,%s>" % (1, pin, 1, delay)
-            self.send_to_serial_device(serial_device, message)
-            while serial_device.inWaiting() == 0:
+            self.send_to_serial_device(message)
+            while self.serial.inWaiting() == 0:
                 pass
-            data = self.receive_from_serial_device(serial_device)
+            data = self.receive_from_serial_device()
             logger.info(data)
 
-            self.close_serial_device(serial_device)
         except Exception as e:
             logger.error("Error: %s" % str(e))
 
@@ -88,44 +79,46 @@ class SerialRelayDriver(Thread):
             logger.error("Error: %s" % str(e))
 
     def open_serial_device(self, port):
-        serial_device = serial.Serial(
-            port, "9600")
-        if serial_device.isOpen():
-            serial_device.close()
-
         try:
-            serial_device.open()
+            if not self.serial:
+                logger.info("a")
+                self.serial = serial.Serial(
+                    port, "9600")
+                if not self.serial.isOpen():
+                    logger.info("b")
+                    self.serial.open()
+                msg = self.wait_for_arduino()
+                logger.info(msg)
         except Exception as e:
             logger.error("Error: %s" % str(e))
-        return serial_device
 
-    def close_serial_device(self, serial_device):
-        serial_device.close()
+    def close_serial_device(self):
+        self.serial.close()
 
-    def wait_for_arduino(self, serial_device):
+    def wait_for_arduino(self):
         msg = ""
         while msg.find("ready") == -1:
-            while serial_device.inWaiting() == 0:
+            while self.serial.inWaiting() == 0:
                 pass
 
-            msg = self.receive_from_serial_device(serial_device)
+            msg = self.receive_from_serial_device()
         return msg
 
-    def receive_from_serial_device(self, serial_device):
+    def receive_from_serial_device(self):
         ck = ""
         x = "z"
 
         while ord(x) != self.start_marker:
-            x = serial_device.read()
+            x = self.serial.read()
 
         while ord(x) != self.end_marker:
             if ord(x) != self.start_marker:
                 ck = ck + x.decode("utf-8")
-            x = serial_device.read()
+            x = self.serial.read()
         return ck
 
-    def send_to_serial_device(self, serial_device, message):
-        serial_device.write(message.encode("utf-8"))
+    def send_to_serial_device(self, message):
+        self.serial.write(message.encode("utf-8"))
 
     def run(self):
         while True:

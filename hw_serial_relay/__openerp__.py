@@ -4,7 +4,7 @@
 {
     "name": "HW Proxy - Serial Relay",
     "summary": "HW Proxy - Serial Relay",
-    "version": "8.0.1.0.1",
+    "version": "8.0.1.0.2",
     "website": "https://opensynergy-indonesia.com",
     "author": "OpenSynergy Indonesia",
     "license": "AGPL-3",
