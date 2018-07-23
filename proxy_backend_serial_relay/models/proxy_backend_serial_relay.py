@@ -26,8 +26,6 @@ class ProxyBackendSerialRelay(models.Model):
         string="Device Path",
         required=True,
     )
-    channel_ids = fields.One2many(
-        string="Channels",
-        comodel_name="proxy.backend_serial_relay_channel",
-        inverse_name="device_id",
+    pin = fields.Integer(
+        string="Pin",
     )

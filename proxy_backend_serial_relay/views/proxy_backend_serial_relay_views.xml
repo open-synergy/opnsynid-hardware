@@ -31,28 +31,17 @@
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
                 <field name="device_path"/>
-            </xpath>  
-            <xpath expr="//page[@name='description']" position="before">
-                <page name="channel" string="Channel(s)">
-                    <field name="channel_ids" colspan="4" nolabel="1">
-                        <tree>
-                            <field name="name"/>
-                        </tree>
-                        <form>
-                            <header>
-                                <button name="%(proxy_backend_serial_relay.proxy_backend_serial_relay_on_action)d" 
-                                    type="action" string="On" 
-                                    context="{'device_id':parent.id, 'pin':name, 'delay':0}"/>               
-                                <button name="%(proxy_backend_serial_relay.proxy_backend_serial_relay_off_action)d" 
-                                    type="action" string="Off" 
-                                    context="{'device_id':parent.id, 'pin':name, 'delay':0}"/>                                                      
-                            </header>
-                            <group name="group1" colspan="4" col="2">
-                                <field name="name"/>
-                            </group>
-                        </form>
-                    </field>
-                </page>
+            </xpath>
+            <xpath expr="//field[@name='active']" position="before">
+                <field name="pin"/>
+            </xpath>
+            <xpath expr="/form/header" position="inside">
+                <button name="%(proxy_backend_serial_relay.proxy_backend_serial_relay_on_action)d" 
+                    type="action" string="On" 
+                    context="{'device_id':active_id, 'pin':pin, 'delay':0}"/>               
+                <button name="%(proxy_backend_serial_relay.proxy_backend_serial_relay_off_action)d" 
+                    type="action" string="Off" 
+                    context="{'device_id':active_id, 'pin':pin, 'delay':0}"/>
             </xpath>
         </data>
     </field>

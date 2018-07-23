@@ -3,4 +3,3 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from . import proxy_backend_serial_relay
-from . import proxy_backend_serial_relay_channel
