@@ -217,6 +217,9 @@ class Scanner(Thread):
                                     elif event.code == 42 or event.code == 54: # SHIFT
                                         device.shift = True
                                     elif event.code == 28: # ENTER, end of barcode
+                                        # ==========================================
+                                        # Space buat nambahin fungsi nembak RPC Odoo
+                                        # ==========================================
                                         _logger.debug('pushing barcode %s from %s', ''.join(device.barcode), str(device.evdev))
                                         self.barcodes.put( (time.time(),''.join(device.barcode)) )
                                         device.barcode = []
