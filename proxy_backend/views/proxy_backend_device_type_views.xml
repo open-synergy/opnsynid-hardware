@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 OpenSynergy Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+<record id="proxy_backend_device_type_view_tree" model="ir.ui.view">
+    <field name="name">proxy.backend_device_type tree</field>
+    <field name="model">proxy.backend_device_type</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="name"/>
+        </tree>
+    </field>
+</record>
+
+<record id="proxy_backend_device_type_view_form" model="ir.ui.view">
+    <field name="name">proxy.backend_device_type form</field>
+    <field name="model">proxy.backend_device_type</field>
+    <field name="arch" type="xml">
+        <form>
+            <sheet>
+                <group name="form1" col="2" colspan="2">
+                    <field name="name"/>
+                    <field name="active"/>
+                </group>
+                <notebook>
+                    <page name="description" string="Description">
+                        <field name="description" nolabel="1"/>
+                    </page>
+                </notebook>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="proxy_backend_device_type_action" model="ir.actions.act_window">
+    <field name="name">Proxy Backend Device Type</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">proxy.backend_device_type</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+        Click to add a Proxy Backend Device Type.
+        </p>
+    </field>
+</record>
+
+<menuitem
+    name="Device Type"
+    id="proxy_backend_device_type_menu"
+    action="proxy_backend_device_type_action"
+    parent="menu_proxy_root"
+    sequence="1002"/>
+
+</data>
+</openerp>

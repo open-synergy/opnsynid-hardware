@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 OpenSynergy Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+
+<record id="proxy_backend_view_tree" model="ir.ui.view">
+    <field name="name">Tree Proxy Backend</field>
+    <field name="model">proxy.backend</field>
+    <field name="arch" type="xml">
+        <tree>
+            <field name="name"/>
+            <field name="backend_ip"/>
+            <field name="port"/>
+            <field name="active"/>
+        </tree>
+    </field>
+</record>
+
+<record id="proxy_backend_view_form" model="ir.ui.view">
+    <field name="name">Form Proxy Backend</field>
+    <field name="model">proxy.backend</field>
+    <field name="arch" type="xml">
+        <form string="Proxy Backend">
+            <header>
+                <button name="%(proxy_backend.proxy_backend_test_connection_action)d" 
+                    type="action" string="Test Connection" 
+                    context="{'backend_id':id}"/>
+            </header>
+            <sheet>
+                <group name="form1" col="2" colspan="2">
+                    <field name="id" invisible="1"/>
+                    <field name="name"/>
+                    <field name="backend_ip"/>
+                    <field name="port"/>
+                    <field name="active"/>
+                </group>
+                <notebook>
+                    <page name="description" string="Description">
+                        <field name="description" nolabel="1"/>
+                    </page>
+                    <page name="device" string="Device(s)">
+                        <group name="serial_device" string="Device(s)">
+                            <field name="device_ids" colspan="4" nolabel="1" widget="many2many"/>
+                        </group>
+                    </page>
+                </notebook>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="proxy_backend_action" model="ir.actions.act_window">
+    <field name="name">Proxy Backend</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">proxy.backend</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+        Click to add a Proxy Backend.
+        </p>
+    </field>
+</record>
+
+<menuitem 
+    name="Proxy"
+    id="menu_proxy_root"
+    parent="base.menu_administration"/>
+
+<menuitem
+    name="Proxy Backend"
+    id="proxy_backend_menu"
+    action="proxy_backend_action"
+    parent="menu_proxy_root"
+    sequence="1000"/>
+
+</data>
+</openerp>

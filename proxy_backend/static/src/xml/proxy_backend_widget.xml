@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="ProxyBackendWidget">
+        <span class="oe_form_field oe_form_field_char">
+            <span class="oe_form_char_content">Proxy Backend: <t t-esc="widget.proxy_name"/></span>
+            <t t-if="widget.proxy_backend_status == 'connected'">
+                <img src="/web/static/src/img/icons/STOCK_YES.png"/>
+            </t>
+            <t t-if="widget.proxy_backend_status == 'disconnected'">
+                <img src="/web/static/src/img/icons/STOCK_NO.png"/>
+            </t>
+        </span>
+        <t t-if="widget.display_info == 1">
+            <span class="oe_form_field oe_form_field_char">
+                <span class="oe_form_char_content">IP: <t t-esc="widget.proxy_ip"/></span>
+            </span>
+            <span class="oe_form_field oe_form_field_char">
+                <span class="oe_form_char_content">Port: <t t-esc="widget.proxy_port"/></span>
+            </span>
+        </t>
+        <t t-if="widget.backend_id != false">
+            <button class="proxy_widget_test_button" type="button" title="Test Connection">
+                <div class="fa fa-wifi fa-fw"/>
+            </button>
+            <button class="proxy_widget_configure_button" type="button" title="Configure">
+                <div class="fa fa-cog fa-fw"/>
+            </button>
+        </t>
+    </t>
+</templates>
