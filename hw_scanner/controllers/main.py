@@ -231,8 +231,3 @@ scanner_thread = None
 if evdev:
     scanner_thread = Scanner()
     hw_proxy.drivers['scanner'] = scanner_thread
-
-class ScannerDriver(hw_proxy.Proxy):
-    @http.route('/hw_proxy/scanner', type='json', auth='none', cors='*')
-    def scanner(self):
-        return scanner_thread.get_barcode() if scanner_thread else None
