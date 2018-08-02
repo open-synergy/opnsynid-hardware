@@ -1,16 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
-    <data>
-        <template id="assets_backend" name="proxy_backend_gpio" inherit_id="web.assets_backend">
-          <xpath expr="." position="inside">
-              <script type="text/javascript" src="/proxy_backend_gpio/static/src/js/device.js" />
-              <script type="text/javascript" src="/proxy_backend_gpio/static/src/js/action.js" />
-              <script type="text/javascript" src="/proxy_backend_gpio/static/src/js/main.js" />
-          </xpath>
-        </template>
-        <record id="proxy_backend_gpio_action" model="ir.actions.client">
-            <field name="name">Proxy GPIO Action</field>
-            <field name="tag">proxy_gpio</field>
-        </record>
-    </data>
+<data>
+
+<template id="assets_backend" name="proxy_backend_gpio" inherit_id="web.assets_backend">
+    <xpath expr="." position="inside">
+        <script type="text/javascript" src="/proxy_backend_gpio/static/src/js/action.js" />
+        <script type="text/javascript" src="/proxy_backend_gpio/static/src/js/main.js" />
+    </xpath>
+</template>
+
+<!-- Client Action -->
+<record id="proxy_backend_raspberry_relay_on_action" model="ir.actions.client">
+    <field name="name">Raspberry Relay On Action</field>
+    <field name="tag">proxy_backend_raspberry_relay_on</field>
+</record>
+
+<record id="proxy_backend_raspberry_relay_off_action" model="ir.actions.client">
+    <field name="name">Raspberry Relay Off Action</field>
+    <field name="tag">proxy_backend_raspberry_relay_off</field>
+</record>
+
+<record id="proxy_backend_raspberry_relay_on_off_timer_action" model="ir.actions.client">
+    <field name="name">Raspberry Relay On/Off With Timer Action</field>
+    <field name="tag">proxy_backend_raspberry_relay_on_off_timer</field>
+</record>
+
+</data>
 </openerp>
