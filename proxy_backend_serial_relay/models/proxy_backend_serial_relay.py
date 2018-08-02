@@ -22,6 +22,11 @@ class ProxyBackendSerialRelay(models.Model):
         required=True,
         ondelete="cascade",
     )
+    dummy_device_id = fields.Many2one(
+        string="ID Device",
+        comodel_name="proxy.backend_device",
+        related="device_id",
+        )
     device_path = fields.Char(
         string="Device Path",
         required=True,
