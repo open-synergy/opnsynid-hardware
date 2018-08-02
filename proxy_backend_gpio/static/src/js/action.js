@@ -1,12 +1,9 @@
 function proxy_backend_gpio_action(instance, module){
 
-    instance.web.client_actions.add('proxy_gpio_out_on', 'instance.proxy_backend_gpio.gpio_out_on');
-    instance.proxy_backend_gpio.gpio_out_on = function (instance, context) {
-        //PARAMETER
+    instance.web.client_actions.add("proxy_backend_raspberry_relay_on", "instance.proxy_backend_gpio.gpio_relay_on");
+    instance.proxy_backend_gpio.gpio_relay_on = function (instance, context) {
         this.device_id = context.context.device_id;
-        this.channel = context.context.channel;
-        this.mode = context.context.mode;
-        //=========================================
+        this.pin = context.context.pin;
         var parent = this;
         this.device = new openerp.proxy_backend.ProxyBackendDevice(
             this, this.device_id);
@@ -20,7 +17,7 @@ function proxy_backend_gpio_action(instance, module){
             })
             .then(function(backend){
                 if (backend != null){
-                    parent.proxy.message_json(backend, "POST", "rpi_gpio_out_on", {"channel": parent.channel, "mode": parent.mode})
+                    parent.proxy.message_json(backend, "POST", "rpi_gpio_out_on", {"channel": parent.pin})
                         .done(function(){
                             // alert("Connected to proxy device");
                         })
@@ -35,13 +32,11 @@ function proxy_backend_gpio_action(instance, module){
             })
     };
 
-    instance.web.client_actions.add('proxy_gpio_out_off', 'instance.proxy_backend_gpio.gpio_out_off');
-    instance.proxy_backend_gpio.gpio_out_off = function (instance, context) {
-        //PARAMETER
+    instance.web.client_actions.add("proxy_backend_raspberry_relay_off", "instance.proxy_backend_gpio.gpio_relay_off");
+    instance.proxy_backend_gpio.gpio_relay_off = function (instance, context) {
         this.device_id = context.context.device_id;
-        this.channel = context.context.channel;
-        this.mode = context.context.mode;
-        //=========================================
+        this.pin = context.context.pin;
+        
         var parent = this;
         this.device = new openerp.proxy_backend.ProxyBackendDevice(
             this, this.device_id);
@@ -55,7 +50,7 @@ function proxy_backend_gpio_action(instance, module){
             })
             .then(function(backend){
                 if (backend != null){
-                    parent.proxy.message_json(backend, "POST", "rpi_gpio_out_off", {"channel": parent.channel, "mode": parent.mode})
+                    parent.proxy.message_json(backend, "POST", "rpi_gpio_out_off", {"channel": parent.pin})
                         .done(function(){
                             // alert("Connected to proxy device");
                         })
@@ -69,15 +64,12 @@ function proxy_backend_gpio_action(instance, module){
                 }
             })
     };
-
-    instance.web.client_actions.add('proxy_gpio_out_on_off_timer', 'instance.proxy_backend_gpio.gpio_out_on_off_timer');
-    instance.proxy_backend_gpio.gpio_out_on_off_timer = function (instance, context) {
-        //PARAMETER
+    
+    instance.web.client_actions.add("proxy_backend_raspberry_relay_on_off_timer", "instance.proxy_backend_gpio.raspberry_relay_on_off_timer");
+    instance.proxy_backend_gpio.gpio_relay_on_off_timer = function (instance, context) {
         this.device_id = context.context.device_id;
-        this.channel = context.context.channel;
-        this.mode = context.context.mode;
-        this.interval = context.context.interval;
-        //=========================================
+        this.pin = context.context.pin;
+        this.delay = context.context.delay;        
         var parent = this;
         this.device = new openerp.proxy_backend.ProxyBackendDevice(
             this, this.device_id);
@@ -91,7 +83,7 @@ function proxy_backend_gpio_action(instance, module){
             })
             .then(function(backend){
                 if (backend != null){
-                    parent.proxy.message_json(backend, "POST", "rpi_gpio_out_on_off_timer", {"channel": parent.channel, "mode": parent.mode, "interval": parent.interval})
+                    parent.proxy.message_json(backend, "POST", "rpi_gpio_out_on_off_timer", {"channel": parent.pin, "delay": parent.delay})
                         .done(function(){
                             // alert("Connected to proxy device");
                         })
@@ -104,6 +96,5 @@ function proxy_backend_gpio_action(instance, module){
                     alert("Failed to connect to proxy device");
                 }
             })
-    };
-
+    };    
 };
