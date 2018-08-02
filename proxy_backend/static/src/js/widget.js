@@ -162,7 +162,7 @@ openerp.proxy_backend = function(instance) {
             this, this.device_id);
         this.device.get_device()
             .then(function(device){
-                parent.backend_id = device.proxy_backend_id;
+                parent.backend_id = device.proxy_backend_id[0];
                 parent.device_name = device.name;
                 parent.proxy = new openerp.proxy_backend.ProxyBackend(
                     this, parent.backend_id);
