@@ -31,17 +31,22 @@
             </xpath>
             <xpath expr="//field[@name='name']" position="after">
                 <field name="device_path"/>
+                <field name="dummy_device_id" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='active']" position="before">
                 <field name="pin"/>
             </xpath>
+
+            <xpath expr="//button[@name='%(proxy_backend.proxy_device_test_connection_action)d']" position="attributes"> 
+                <attribute name="context">{'device_id':dummy_device_id}</attribute>
+            </xpath>
             <xpath expr="/form/header" position="inside">
                 <button name="%(proxy_backend_serial_relay.proxy_backend_serial_relay_on_action)d" 
                     type="action" string="On" 
-                    context="{'device_id':active_id, 'pin':pin, 'delay':0}"/>               
+                    context="{'device_path':device_path, 'device_id':active_id, 'pin':pin, 'delay':0}"/>               
                 <button name="%(proxy_backend_serial_relay.proxy_backend_serial_relay_off_action)d" 
                     type="action" string="Off" 
-                    context="{'device_id':active_id, 'pin':pin, 'delay':0}"/>
+                    context="{'device_path':device_path, 'device_id':active_id, 'pin':pin, 'delay':0}"/>
             </xpath>
         </data>
     </field>
