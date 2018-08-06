@@ -11,7 +11,11 @@ class ProxyBackendDevice(models.Model):
 
     @api.model
     def _default_device_type(self):
-        return False
+        context = self._context
+        if context.get("device_type"):
+            return context["device_type"]
+        else:
+            return False
 
     name = fields.Char(
         string="Device Name",
