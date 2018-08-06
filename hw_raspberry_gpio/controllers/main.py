@@ -31,27 +31,29 @@ class RpiGpioDriver(Thread):
                 self.daemon = True
                 self.start()
 
-    def push_task(self, task, channel, mode="board", interval=0):
+    def push_task(self, task, channel, mode, interval=0):
         self.lockedstart()
-        if mode == "board":
-            mode = GPIO.BOARD
-        else:
-            mode = GPIO.BCM
         self.queue.put((time.time(), task, channel, mode, interval))
 
     def rpi_gpio_out_on(self, channel, mode):
         try:
-            GPIO.setmode(mode)
+            if mode == "board":
+                GPIO.setmode(GPIO.BOARD)
+            else:
+                GPIO.setmode(GPIO.BCM)
             GPIO.setup(channel, GPIO.OUT)
-            GPIO.output(channel, GPIO.HIGH)
+            GPIO.output(channel, GPIO.LOW)
         except Exception as e:
             logger.error("Error: %s" % str(e))
 
     def rpi_gpio_out_off(self, channel, mode):
         try:
-            GPIO.setmode(mode)
+            if mode == "board":
+                GPIO.setmode(GPIO.BOARD)
+            else:
+                GPIO.setmode(GPIO.BCM)
             GPIO.setup(channel, GPIO.OUT)
-            GPIO.output(channel, GPIO.LOW)
+            GPIO.output(channel, GPIO.HIGH)
             GPIO.cleanup(channel)
         except Exception as e:
             logger.error("Error: %s" % str(e))
@@ -91,13 +93,13 @@ class RpiGpioProxy(hw_proxy.Proxy):
     @http.route(
         "/hw_proxy/rpi_gpio_out_on", type="json", auth="none",
         cors="*")
-    def rpi_gpio_out_on(self, channel, mode=None):
+    def rpi_gpio_out_on(self, channel, mode="board"):
         driver.push_task("rpi_gpio_out_on", channel, mode)
 
     @http.route(
         "/hw_proxy/rpi_gpio_out_off", type="json", auth="none",
         cors="*")
-    def rpi_gpio_out_off(self, channel, mode=None):
+    def rpi_gpio_out_off(self, channel, mode="board"):
         driver.push_task("rpi_gpio_out_off", channel, mode)
 
     @http.route(
