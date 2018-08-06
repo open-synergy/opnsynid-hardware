@@ -24,22 +24,24 @@
     <field name="arch" type="xml">
         <data>
             <xpath expr="//field[@name='type_id']" position="attributes">
-                <attribute name="invisible">0</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="device_id" required="0" invisible="1"/>
             </xpath>
             <xpath expr="//field[@name='active']" position="before">
-                <field name="pin"/>
-                <field name="dummy_device_id" invisible="1"/>
+                <field name="pin" string="Channel"/>
             </xpath>
             <xpath expr="//button[@name='%(proxy_backend.proxy_device_test_connection_action)d']" position="attributes"> 
-                <attribute name="context">{'device_id':dummy_device_id}</attribute>
+                <attribute name="context">{'device_id':[device_id]}</attribute>
             </xpath>
             <xpath expr="/form/header" position="inside">
                 <button name="%(proxy_backend_gpio.proxy_backend_raspberry_relay_on_action)d" 
                     type="action" string="On" 
-                    context="{'device_id':active_id, 'pin':pin}"/>               
+                    context="{'device_id':device_id, 'pin':pin}"/>               
                 <button name="%(proxy_backend_gpio.proxy_backend_raspberry_relay_off_action)d" 
                     type="action" string="Off" 
-                    context="{'device_id':active_id, 'pin':pin}"/>
+                    context="{'device_id':device_id, 'pin':pin}"/>
             </xpath>            
         </data>
     </field>
@@ -51,6 +53,7 @@
     <field name="res_model">proxy.backend_raspberry_relay</field>
     <field name="view_type">form</field>
     <field name="view_mode">tree,form</field>
+    <field name="context" eval="{'device_type': ref('proxy_backend_gpio.proxy_backend_device_type_raspberry_relay')}"/>
     <field name="help" type="html">
         <p class="oe_view_nocontent_create">
         Click to add a Raspberry Relay.

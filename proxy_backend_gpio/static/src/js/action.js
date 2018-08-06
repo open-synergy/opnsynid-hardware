@@ -65,7 +65,7 @@ function proxy_backend_gpio_action(instance, module){
             })
     };
     
-    instance.web.client_actions.add("proxy_backend_raspberry_relay_on_off_timer", "instance.proxy_backend_gpio.raspberry_relay_on_off_timer");
+    instance.web.client_actions.add("proxy_backend_raspberry_relay_on_off_timer", "instance.proxy_backend_gpio.gpio_relay_on_off_timer");
     instance.proxy_backend_gpio.gpio_relay_on_off_timer = function (instance, context) {
         this.device_id = context.context.device_id;
         this.pin = context.context.pin;
