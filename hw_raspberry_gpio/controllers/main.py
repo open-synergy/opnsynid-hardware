@@ -60,11 +60,14 @@ class RpiGpioDriver(Thread):
 
     def rpi_gpio_out_on_off_timer(self, channel, mode, interval):
         try:
-            GPIO.setmode(mode)
+            if mode == "board":
+                GPIO.setmode(GPIO.BOARD)
+            else:
+                GPIO.setmode(GPIO.BCM)
             GPIO.setup(channel, GPIO.OUT)
-            GPIO.output(channel, GPIO.HIGH)
-            time.sleep(interval)
             GPIO.output(channel, GPIO.LOW)
+            time.sleep(interval)
+            GPIO.output(channel, GPIO.HIGH)
             GPIO.cleanup(channel)
         except Exception as e:
             logger.error("Error: %s" % str(e))
@@ -105,5 +108,5 @@ class RpiGpioProxy(hw_proxy.Proxy):
     @http.route(
         "/hw_proxy/rpi_gpio_out_on_off_timer", type="json", auth="none",
         cors="*")
-    def rpi_gpio_out_on_off_timer(self, channel, mode=None, interval=None):
+    def rpi_gpio_out_on_off_timer(self, channel, mode="board", interval=None):
         driver.push_task("rpi_gpio_out_on_off_timer", channel, mode, interval)
