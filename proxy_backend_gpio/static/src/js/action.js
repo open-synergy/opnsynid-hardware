@@ -69,7 +69,7 @@ function proxy_backend_gpio_action(instance, module){
     instance.proxy_backend_gpio.gpio_relay_on_off_timer = function (instance, context) {
         this.device_id = context.context.device_id;
         this.pin = context.context.pin;
-        this.delay = context.context.delay;        
+        this.interval = context.context.interval;        
         var parent = this;
         this.device = new openerp.proxy_backend.ProxyBackendDevice(
             this, this.device_id);
@@ -83,7 +83,8 @@ function proxy_backend_gpio_action(instance, module){
             })
             .then(function(backend){
                 if (backend != null){
-                    parent.proxy.message_json(backend, "POST", "rpi_gpio_out_on_off_timer", {"channel": parent.pin, "delay": parent.delay})
+                    
+                    parent.proxy.message_json(backend, "POST", "rpi_gpio_out_on_off_timer", {"channel": parent.pin, "interval": parent.interval})
                         .done(function(){
                             // alert("Connected to proxy device");
                         })
