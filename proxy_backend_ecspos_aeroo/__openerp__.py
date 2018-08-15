@@ -4,7 +4,7 @@
 {
     "name": "Backend Direct Printing Using Hardware Proxy + "
             "Aeroo Report + ESCPOS",
-    "version": "8.0.1.1.1",
+    "version": "8.0.1.1.2",
     "website": "https://opensynergy-indonesia.com",
     "author": "OpenSynergy Indonesia",
     "license": "AGPL-3",
