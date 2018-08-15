@@ -6,6 +6,7 @@ openerp.proxy_backend = function(instance) {
     instance.proxy_backend.ProxyBackend  = instance.web.Class.extend(openerp.PropertiesMixin,{
         init: function(parent, backend_id){
             this.backend_id = backend_id;
+            this.receipt_queue = [];
         },
         get_backend: function(){
             var obj_proxy = new openerp.Model("proxy.backend");
@@ -13,6 +14,7 @@ openerp.proxy_backend = function(instance) {
                 .filter([["id", "=", this.backend_id]])
                 .first()
         },
+
         //TODO: find a way to eliminate backend parameter.
         message_json: function(backend, method, route, params){
             end_point = backend.backend_ip + ":" + backend.port + "/hw_proxy/" + route;
