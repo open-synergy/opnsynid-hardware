@@ -16,7 +16,10 @@ class ProxyBackend(models.Model):
         logger.info(
             'Values Report %s ID %s',
             report_name, object_id)
-        data_id = object_id[0]
+        if len(object_id) > 1:
+            data_id = object_id
+        else:
+            data_id = [object_id[0]]
         report = self.env['ir.actions.report.xml']._lookup_report(report_name)
         report_xml = self.env['report']._get_report_from_name(report_name)
         data = {
@@ -28,7 +31,7 @@ class ProxyBackend(models.Model):
             'Request printing aeroo report %s model %s ID %d in %d copies',
             report_name, data['model'], data['id'], copies)
         aeroo_report_content, aeroo_report_format = report.create(
-            self.env.cr, self.env.uid, [data_id],
+            self.env.cr, self.env.uid, data_id,
             data, context=dict(self.env.context))
 
         return {
