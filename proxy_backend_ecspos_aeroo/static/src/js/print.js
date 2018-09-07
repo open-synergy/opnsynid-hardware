@@ -7,6 +7,7 @@ function proxy_backend_ecspos_aeroo_print(instance, module){
     instance.proxy_backend_ecspos_aeroo.action = function (instance, context) {
         this.report_name = context.context.report_name;
         this.object_id = context.context.object_id;
+        this.print_type = context.context.print_type;
         var parent = this;
         var obj_users = new openerp.Model('res.users');
         var obj_proxy = new openerp.Model('proxy.backend');
@@ -24,14 +25,24 @@ function proxy_backend_ecspos_aeroo_print(instance, module){
             })
             .then(function(backend){
                 if (backend != null){
-                    for (var i = 0, len = parent.object_id.length; i<len; i++)
-                    {   
-                        obj_proxy.call('get_content_ecspos',[parent.report_name, [parent.object_id[i]]]).then(function(aeroo_content){
+                    if (parent.print_type == "continuous"){
+                        obj_proxy.call('get_content_ecspos',[parent.report_name, parent.object_id]).then(function(aeroo_content){
                             parent.proxy.print_receipt(aeroo_content, backend);
                         },function(err,event){
                             event.preventDefault();
                             console.log("Content should be Raw. Please try again.")
                         });
+                    }
+                    else{
+                        for (var i = 0, len = parent.object_id.length; i<len; i++)
+                        {   
+                            obj_proxy.call('get_content_ecspos',[parent.report_name, [parent.object_id[i]]]).then(function(aeroo_content){
+                                parent.proxy.print_receipt(aeroo_content, backend);
+                            },function(err,event){
+                                event.preventDefault();
+                                console.log("Content should be Raw. Please try again.")
+                            });
+                        }
                     }
                 }
                 //TODO: Find more elegant way
