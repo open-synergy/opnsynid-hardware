@@ -4,6 +4,8 @@
 
 import logging
 from openerp import models, api
+from openerp.exceptions import Warning as UserError
+from openerp.tools.translate import _
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +14,7 @@ class ProxyBackend(models.Model):
     _inherit = "proxy.backend"
 
     @api.model
-    def get_aeroo_report(self, report_name, object_id, copies=1):
+    def get_aeroo_report(self, report_name, object_id, params, copies=1):
         logger.info(
             'Values Report %s ID %s',
             report_name, object_id)
@@ -28,11 +30,12 @@ class ProxyBackend(models.Model):
             'report_type': 'aeroo',
         }
         logger.info(
-            'Request printing aeroo report %s model %s ID %d in %d copies',
-            report_name, data['model'], data['id'], copies)
+            'Request printing aeroo report %s model %s ID %s Context %s in %d copies ',
+            str(report), data['model'], data['id'], self.env.context, copies)
+        
         aeroo_report_content, aeroo_report_format = report.create(
             self.env.cr, self.env.uid, data_id,
-            data, context=dict(self.env.context))
+            data, context=dict(params))
 
         return {
             "content": aeroo_report_content,
