@@ -10,7 +10,7 @@ class ProxyBackend(models.Model):
     _inherit = "proxy.backend"
 
     @api.model
-    def get_content_ecspos(self, report_name, object_id, params, copies=1):
+    def get_content_ecspos(self, report_name, object_id, params=None, copies=1):
         aeroo = self.get_aeroo_report(report_name, object_id, params)
 
         if aeroo["format"] == "raw":
