@@ -14,7 +14,9 @@ class ProxyBackend(models.Model):
     _inherit = "proxy.backend"
 
     @api.model
-    def get_aeroo_report(self, report_name, object_id, params, copies=1):
+    def get_aeroo_report(self, report_name, object_id, params=None, copies=1):
+        if not params:
+            params = {}
         logger.info(
             'Values Report %s ID %s',
             report_name, object_id)
