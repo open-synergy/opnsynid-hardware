@@ -31,15 +31,13 @@ class CupsDriver(Thread):
                 self.daemon = True
                 self.start()
 
-    def push_task(self, task, data=None):
+    def push_task(self, task, data=None, printer_name=None):
         self.lockedstart()
-        self.queue.put((time.time(), task, data))
+        self.queue.put((time.time(), task, data, printer_name))
 
-    def print_using_cups(self, data):
+    def print_using_cups(self, data, printer_name):
         try:
             conn = cups.Connection()
-            printers = conn.getPrinters()
-            printer_name = printers.keys()[0]
             with NamedTemporaryFile() as f:
                 f.write(data.decode('base64'))
                 f.flush()
@@ -50,9 +48,10 @@ class CupsDriver(Thread):
     def run(self):
         while True:
             try:
-                timestamp, task, data = self.queue.get(True)
+                timestamp, task, data, printer_name =\
+                    self.queue.get(True)
                 if task == 'print_using_cups':
-                    self.print_using_cups(data)
+                    self.print_using_cups(data, printer_name)
                 else:
                     pass
             except Exception as e:
@@ -66,5 +65,21 @@ class CupsProxy(hw_proxy.Proxy):
     @http.route(
         '/hw_proxy/print_using_cups', type='json', auth='none',
         cors='*')
-    def print_using_cups(self, data):
-        driver.push_task('print_using_cups', data)
+    def print_using_cups(self, data, printer_name):
+        driver.push_task('print_using_cups', data, printer_name)
+
+    @http.route(
+        '/hw_proxy/get_printer_cups', type='json', auth='none',
+        cors='*')
+    def get_printer_cups(self):
+        printers = {}
+        try:
+            conn = cups.Connection()
+            printers = conn.getPrinters()
+            printer_name = printers.keys()
+            logger.info(
+                'Request get printer %s',
+                printer_name)
+        except Exception as e:
+            logger.error('Error: %s' % str(e))
+        return printers
