@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="proxy_backend_view_form" model="ir.ui.view">
+            <field name="name">Form Proxy Backend Printer Cups</field>
+            <field name="model">proxy.backend</field>
+            <field name="inherit_id" ref="proxy_backend.proxy_backend_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page name="cups_printer_page" string="Cups Printer(s)">
+                        <field name="cups_printer_ids" nolabel="1" widget="one2many_list">
+                            <tree string="Cups Printer(s)" create="false">
+                                <field name="name"/>
+                                <field name="state"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button name="%(proxy_backend_cups_aeroo.proxy_backend_cups_aeroo_get_cups_printer)d" 
+                        type="action" string="Reload Printer(s)" 
+                        context="{'backend_id':id}"/>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>
