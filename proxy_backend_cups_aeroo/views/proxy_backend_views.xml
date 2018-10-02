@@ -21,6 +21,10 @@
                     <button name="%(proxy_backend_cups_aeroo.proxy_backend_cups_aeroo_get_cups_printer)d" 
                         type="action" string="Reload Printer(s)" 
                         context="{'backend_id':id}"/>
+                    <button name="reload_printer"
+                        string="Reload Printer(s)(2)"
+                        type="object"
+                        />
                 </xpath>
             </field>
         </record>

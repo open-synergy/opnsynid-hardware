@@ -25,3 +25,15 @@ class ProxyBackend(models.Model):
         else:
             raise UserError(_("Content shouldn't be Raw. Please try again."))
         return result
+
+    @api.multi
+    def reload_printer(self):
+        action = self.env.ref(
+            "proxy_backend_cups_aeroo."
+            "proxy_backend_cups_aeroo_get_cups_printer")
+        context = {
+            "backend_id": self.id
+        }
+        result = action.read()[0]
+        result.update({"context": context})
+        return result

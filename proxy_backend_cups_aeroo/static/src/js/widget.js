@@ -15,7 +15,9 @@ function proxy_backend_cups_aeroo_widget(instance, module){
                 if (backend != null){
                     parent.proxy.message_json(backend, "POST", "get_printer_cups", {})
                         .done(function(printer){
-                            obj_proxy_cups_printer.call('create_from_ui', [printer, backend]);
+                            obj_proxy_cups_printer.call('create_from_ui', [printer, backend]).done(function(res) {
+                                window.location.reload()
+                            });
                         })
                         .fail(function(){
                             alert("Failed to connect to proxy device");
