@@ -19,7 +19,7 @@ class ResUsers(models.Model):
         doc = etree.XML(res['arch'])
         for node in doc.xpath("//field[@name='cups_printer_id']"):
             active_ids = self._context.get('active_ids')
-            domain = "[('id', '=', 0)]"
+            domain = "[('backend_id', '=', proxy_backend_id)]"
             node.set('domain', domain)
         res['arch'] = etree.tostring(doc)
         return res
