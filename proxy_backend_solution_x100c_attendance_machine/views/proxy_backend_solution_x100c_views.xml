@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 OpenSynergy Indonesia
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<openerp>
+<data>
+<record id="proxy_backend_solution_x100c_view_tree" model="ir.ui.view">
+    <field name="name">proxy.backend_solution_x100c tree</field>
+    <field name="model">proxy.backend_solution_x100c</field>
+    <field name="inherit_id" ref="proxy_backend.proxy_backend_device_view_tree"/>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='type_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="connection_type"/>
+                <field name="ethernet_url"/>
+                <field name="key"/>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="proxy_backend_solution_x100c_view_form" model="ir.ui.view">
+    <field name="name">proxy.backend_solution_x100c form</field>
+    <field name="model">proxy.backend_solution_x100c</field>
+    <field name="inherit_id" ref="proxy_backend.proxy_backend_device_view_form"/>
+    <field name="arch" type="xml">
+        <data>
+            <xpath expr="//field[@name='type_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="device_id" required="0" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='active']" position="before">
+                <field name="connection_type"/>
+                <field name="ethernet_url"/>
+                <field name="key"/>
+            </xpath>
+
+            <xpath expr="//button[@name='%(proxy_backend.proxy_device_test_connection_action)d']" position="attributes">
+                <attribute name="context">{'device_id':[device_id]}</attribute>
+            </xpath>
+            <xpath expr="/form/header" position="inside">
+                <button name="%(proxy_backend_solution_x100c_attendance_machine.proxy_backend_solution_x100c_get_attendance)d"
+                    type="action" string="Get Attendance"
+                    context="{'device_id':device_id, 'ethernet_url':ethernet_url, 'key':key}"/>
+            </xpath>
+        </data>
+    </field>
+</record>
+
+<record id="proxy_backend_solution_x100c_action" model="ir.actions.act_window">
+    <field name="name">Solution X-100C</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">proxy.backend_solution_x100c</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context" eval="{'device_type': ref('proxy_backend_solution_x100c_attendance_machine.proxy_backend_device_type_solution_x100c')}"/>
+    <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+        Click to add a Solution X100-C.
+        </p>
+    </field>
+</record>
+
+<record id="proxy_backend_solution_x100c_waction_tree"
+        model="ir.actions.act_window.view">
+    <field eval="1" name="sequence"/>
+    <field name="view_mode">tree</field>
+    <field name="view_id" ref="proxy_backend_solution_x100c_view_tree"/>
+    <field name="act_window_id" ref="proxy_backend_solution_x100c_action"/>
+</record>
+
+<record id="proxy_backend_solution_x100c_waction_form"
+        model="ir.actions.act_window.view">
+    <field eval="2" name="sequence"/>
+    <field name="view_mode">form</field>
+    <field name="view_id" ref="proxy_backend_solution_x100c_view_form"/>
+    <field name="act_window_id" ref="proxy_backend_solution_x100c_action"/>
+</record>
+
+<menuitem
+    name="Solution X100-C"
+    id="proxy_backend_solution_x100c_menu"
+    action="proxy_backend_solution_x100c_action"
+    parent="proxy_backend.proxy_backend_device_root_menu"
+    sequence="5"/>
+
+</data>
+</openerp>

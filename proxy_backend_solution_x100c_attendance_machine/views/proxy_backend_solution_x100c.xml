@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<data>
+
+<template id="assets_backend" name="proxy_backend_solution_x100c" inherit_id="web.assets_backend">
+    <xpath expr="." position="inside">
+        <script type="text/javascript" src="/proxy_backend_solution_x100c_attendance_machine/static/src/js/action.js" />
+        <script type="text/javascript" src="/proxy_backend_solution_x100c_attendance_machine/static/src/js/main.js" />
+    </xpath>
+</template>
+
+<record id="proxy_backend_solution_x100c_get_attendance" model="ir.actions.client">
+    <field name="name">Solution X100-C Get Attendance</field>
+    <field name="tag">proxy_backend_solution_x100c_get_attendance</field>
+</record>
+
+</data>
+</openerp>
