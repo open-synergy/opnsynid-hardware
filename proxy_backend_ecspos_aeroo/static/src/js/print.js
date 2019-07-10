@@ -37,7 +37,7 @@ function proxy_backend_ecspos_aeroo_print(instance, module){
                     else{
                         for (var i = 0, len = parent.object_id.length; i<len; i++)
                         {   
-                            obj_proxy.call('get_content_ecspos',[parent.report_name, [parent.object_id[i]]]).then(function(aeroo_content){
+                            obj_proxy.call('get_content_ecspos',[parent.report_name, [parent.object_id[i]], parent.params]).then(function(aeroo_content){
                                 parent.proxy.print_receipt(aeroo_content, backend);
                             },function(err,event){
                                 event.preventDefault();
