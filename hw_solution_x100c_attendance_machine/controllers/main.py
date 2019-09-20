@@ -46,13 +46,14 @@ class X100cDriver(Thread):
 
     def load_attendance_data(self):
         try:
+            s = requests.Session()
             url = self.ethernet_url + "/iWsService"
             headers = {"content-type": "text/xml"}
             body = "<GetAttLog><ArgComKey xsi:type=\"xsd:integer\">" + \
                    "%s</ArgComKey>" % (self.key) + \
                    "<Arg><PIN xsi:type=\"xsd:integer\">All</PIN></Arg>" + \
                    "</GetAttLog>"
-            response = requests.post(url, data=body, headers=headers)
+            response = s.post(url, data=body, headers=headers, timeout=None)
             logger.info(response.content)
             root = ET.fromstring(response.content)
 
