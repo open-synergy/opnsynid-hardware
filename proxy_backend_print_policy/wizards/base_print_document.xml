@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+      <record id="base_print_document_view_form" model="ir.ui.view">
+          <field name="name">base.print.document.proxy</field>
+          <field name="model">base.print.document</field>
+          <field name="inherit_id" ref="base_print_policy.base_print_document_view_form"/>
+          <field name="arch" type="xml">
+              <xpath expr="//field[@name='report_action_id']" position="after">
+                  <field name="use_proxy"/>
+                  <field name="allowed_printer_ids" invisible="1"/>
+                  <field
+                    name="printer_id"
+                    domain="[('id', 'in', allowed_printer_ids[0][2])]"
+                    attrs="{'invisible': [('use_proxy', '!=', True)]}"
+                    widget="radio" />
+              </xpath>
+              <xpath expr="//button[@name='action_print']" position="after">
+                    <button
+                      string="Proxy Print"
+                      name="action_print_using_proxy"
+                      type="object"
+                      class="oe_highlight"
+                      icon="gtk-print"/>
+                      or
+              </xpath>
+          </field>
+      </record>
+    </data>
+</openerp>
