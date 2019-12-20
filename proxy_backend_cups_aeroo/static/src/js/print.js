@@ -8,6 +8,7 @@ function proxy_backend_cups_aeroo_print(instance, module){
         this.report_name = context.context.report_name;
         this.object_id = context.context.object_id;
         this.print_type = context.context.print_type;
+        this.printer_name = context.context.printer_name;
         this.params = context.context.params || {};
         var parent = this;
         var obj_users = new openerp.Model('res.users');
@@ -18,8 +19,13 @@ function proxy_backend_cups_aeroo_print(instance, module){
             .first()
             .then(function (user) {
                 if (user.proxy_backend_id){
+                    if (parent.printer_name){
+                        parent.cups_printer_name = parent.printer_name
+                    }
+                    else{
+                        parent.cups_printer_name = user.cups_printer_id[1]
+                    }
                     parent.backend_id = user.proxy_backend_id[0]
-                    parent.cups_printer_name = user.cups_printer_id[1]
                     parent.proxy = new openerp.proxy_backend.ProxyBackend(
                         this, parent.backend_id);
                     return parent.proxy.get_backend();
@@ -37,7 +43,7 @@ function proxy_backend_cups_aeroo_print(instance, module){
                     }
                     else{
                         for (var i = 0, len = parent.object_id.length; i<len; i++)
-                        {   
+                        {
                             obj_proxy.call('get_content_cups',[parent.report_name, [parent.object_id[i]]]).then(function(aeroo_content){
                                 parent.proxy.print_using_cups(aeroo_content, backend, parent.cups_printer_name);
                             },function(err,event){
@@ -51,6 +57,5 @@ function proxy_backend_cups_aeroo_print(instance, module){
                     alert("Failed to connect to proxy device");
                 }
             })
-    };    
+    };
 };
-
