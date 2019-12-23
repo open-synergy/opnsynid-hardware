@@ -2,16 +2,11 @@
 # Copyright 2019 OpenSynergy Indonesia
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
-from openerp import fields, models, api, _
-from openerp.exceptions import Warning as UserError
+from openerp import models, api
 
 
 class BasePrintDocument(models.TransientModel):
     _inherit = "base.print.document"
-
-    use_proxy = fields.Boolean(
-        string="Print Using Proxy"
-    )
 
     @api.model
     def _compute_allowed_printer_ids(self):
@@ -74,19 +69,14 @@ class BasePrintDocument(models.TransientModel):
 
     @api.multi
     def action_print_using_proxy(self):
-        if self.use_proxy:
-            client_action_ref =\
-                self.env.ref(
-                    "proxy_backend_cups_aeroo."
-                    "proxy_backend_cups_aeroo_action"
-                )
-            ctx =\
-                self._prepare_context()
+        client_action_ref =\
+            self.env.ref(
+                "proxy_backend_cups_aeroo."
+                "proxy_backend_cups_aeroo_action"
+            )
+        ctx =\
+            self._prepare_context()
 
-            action = client_action_ref.read()[0]
-            action.update({'context': ctx})
-            return action
-        else:
-            message = "Failed to print report!\n"\
-                      "You need to select 'Print Using Proxy'"
-            raise UserError(_("Warning"), _("%s") % message)
+        action = client_action_ref.read()[0]
+        action.update({'context': ctx})
+        return action
