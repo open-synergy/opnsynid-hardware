@@ -4,7 +4,7 @@
 {
     "name": "Backend Direct Printing Using Hardware Proxy + "
             "Aeroo Report + Cups",
-    "version": "8.0.1.2.0",
+    "version": "8.0.1.2.1",
     "website": "https://opensynergy-indonesia.com",
     "author": "OpenSynergy Indonesia",
     "license": "AGPL-3",
