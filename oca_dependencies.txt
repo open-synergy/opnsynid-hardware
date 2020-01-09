@@ -16,3 +16,4 @@
 
 aeroo_reports https://github.com/aeroo/aeroo_reports 8.0
 odoo-usability https://github.com/akretion/odoo-usability 8.0
+opensynergy-web https://github.com/open-synergy/web 8.0-dev
