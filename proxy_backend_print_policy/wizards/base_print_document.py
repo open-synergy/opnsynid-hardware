@@ -69,14 +69,19 @@ class BasePrintDocument(models.TransientModel):
 
     @api.multi
     def action_print_using_proxy(self):
-        client_action_ref =\
-            self.env.ref(
-                "proxy_backend_cups_aeroo."
-                "proxy_backend_cups_aeroo_action"
-            )
         ctx =\
             self._prepare_context()
-
-        action = client_action_ref.read()[0]
-        action.update({'context': ctx})
-        return action
+        return {
+            "type": "ir.actions.act_multi",
+            "actions": [
+                {
+                    "type": "ir.actions.client",
+                    "name": "Archive",
+                    "tag": "print_aeroo_proxy_cups",
+                    "context": ctx
+                },
+                {
+                    'type': 'ir.actions.act_window_close'
+                },
+            ]
+        }
