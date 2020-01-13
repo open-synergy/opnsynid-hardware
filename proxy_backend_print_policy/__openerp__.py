@@ -3,17 +3,19 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
     "name": "Proxy Backend Integrated With Print Policy",
-    "version": "8.0.1.0.1",
+    "version": "8.0.1.1.0",
     "website": "https://opensynergy-indonesia.com",
     "author": "OpenSynergy Indonesia",
     "license": "AGPL-3",
     "installable": True,
     "depends": [
         "proxy_backend_cups_aeroo",
+        "proxy_backend_ecspos_aeroo",
         "base_print_policy",
         "web_ir_actions_act_multi",
     ],
     "data": [
         "wizards/base_print_document.xml",
+        "views/base_print_policy_view.xml",
     ],
 }

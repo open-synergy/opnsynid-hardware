@@ -38,9 +38,59 @@ class BasePrintDocument(models.TransientModel):
     )
 
     printer_id = fields.Many2one(
-        string="Printer(s)",
+        string="Printer(s) for Proxy",
         comodel_name="proxy.cups_printer",
     )
+    print_use_proxy = fields.Boolean(
+        string="Print Using Proxy"
+    )
+    print_use_escpos = fields.Boolean(
+        string="Print Using Escpos"
+    )
+
+    @api.multi
+    @api.onchange(
+        "report_action_id",
+    )
+    def onchange_print_use_proxy(self):
+        if self.report_action_id:
+            self.print_use_proxy = True
+            user = self.env.user
+            group_ids = user.groups_id.ids
+            print_policy_ids =\
+                self._get_print_policy()
+            if print_policy_ids:
+                if print_policy_ids.proxy_group_ids:
+                    proxy_group_ids =\
+                        print_policy_ids.proxy_group_ids.ids
+                    if (set(proxy_group_ids) & set(group_ids)):
+                        self.print_use_escpos = True
+                    else:
+                        self.print_use_proxy = False
+        else:
+            self.print_use_proxy = False
+
+    @api.multi
+    @api.onchange(
+        "report_action_id",
+    )
+    def onchange_print_use_escpos(self):
+        if self.report_action_id:
+            self.print_use_escpos = True
+            user = self.env.user
+            group_ids = user.groups_id.ids
+            print_policy_ids =\
+                self._get_print_policy()
+            if print_policy_ids:
+                if print_policy_ids.escpos_group_ids:
+                    escpos_group_ids =\
+                        print_policy_ids.escpos_group_ids.ids
+                    if (set(escpos_group_ids) & set(group_ids)):
+                        self.print_use_escpos = True
+                    else:
+                        self.print_use_escpos = False
+        else:
+            self.print_use_escpos = False
 
     @api.multi
     def get_report_name(self):
@@ -63,7 +113,6 @@ class BasePrintDocument(models.TransientModel):
 
         return {
             "report_name": report_name,
-            "printer_name": printer_name,
             "object_id": [active_id]
         }
 
@@ -76,8 +125,27 @@ class BasePrintDocument(models.TransientModel):
             "actions": [
                 {
                     "type": "ir.actions.client",
-                    "name": "Archive",
+                    "name": "Print Proxy",
                     "tag": "print_aeroo_proxy_cups",
+                    "context": ctx
+                },
+                {
+                    'type': 'ir.actions.act_window_close'
+                },
+            ]
+        }
+
+    @api.multi
+    def action_print_using_escpos(self):
+        ctx =\
+            self._prepare_context()
+        return {
+            "type": "ir.actions.act_multi",
+            "actions": [
+                {
+                    "type": "ir.actions.client",
+                    "name": "Print Escpos",
+                    "tag": "print_aeroo_proxy",
                     "context": ctx
                 },
                 {
